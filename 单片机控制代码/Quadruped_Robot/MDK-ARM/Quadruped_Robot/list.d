@@ -1,8 +1,8 @@
 quadruped_robot\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/list.c
-quadruped_robot\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+quadruped_robot\list.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 quadruped_robot\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-quadruped_robot\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-quadruped_robot\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+quadruped_robot\list.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+quadruped_robot\list.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 quadruped_robot\list.o: ../Inc/FreeRTOSConfig.h
 quadruped_robot\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 quadruped_robot\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

@@ -1,7 +1,7 @@
 quadruped_robot\freertos.o: ../Src/freertos.c
 quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-quadruped_robot\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-quadruped_robot\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+quadruped_robot\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+quadruped_robot\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 quadruped_robot\freertos.o: ../Inc/FreeRTOSConfig.h
 quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
@@ -42,4 +42,4 @@ quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/q
 quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 quadruped_robot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 quadruped_robot\freertos.o: ../Inc/usart.h
-quadruped_robot\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+quadruped_robot\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

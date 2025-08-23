@@ -7,13 +7,13 @@ quadruped_robot\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Include/core_cm3.h
-quadruped_robot\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Include/cmsis_version.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 quadruped_robot\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 quadruped_robot\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
-quadruped_robot\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 quadruped_robot\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 quadruped_robot\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 quadruped_robot\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -44,5 +44,5 @@ quadruped_robot\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event
 quadruped_robot\main.o: ../Inc/tim.h
 quadruped_robot\main.o: ../Inc/usart.h
 quadruped_robot\main.o: ../Inc/gpio.h
-quadruped_robot\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-quadruped_robot\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

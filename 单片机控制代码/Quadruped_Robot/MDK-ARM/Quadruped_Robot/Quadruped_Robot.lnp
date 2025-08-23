@@ -39,6 +39,6 @@
 "quadruped_robot\port.o"
 "quadruped_robot\inverse_k.o"
 --library_type=microlib --strict --scatter "Quadruped_Robot\Quadruped_Robot.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "Quadruped_Robot.map" -o Quadruped_Robot\Quadruped_Robot.axf
