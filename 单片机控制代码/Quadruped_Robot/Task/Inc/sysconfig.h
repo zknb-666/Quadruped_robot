@@ -1,9 +1,9 @@
-/*±àÒëÔ¤´¦Àí*/
+/*å¤´æ–‡ä»¶é¢„å£°æ˜*/
 #ifndef __SYSCONFIG_H__
 #define __SYSCONFIG_H__
 
-/*°üº¬Í·ÎÄ¼ş*/
-/*cÍ·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
+/*cå¤´æ–‡ä»¶*/
 #include <stdlib.h>
 #include <math.h>
 #include <string.h> 
@@ -13,6 +13,6 @@
 #include "stm32f1xx_hal.h"
 /*OS*/
 #include "cmsis_os.h"
-/*°üº¬Í·ÎÄ¼ş*/
+/*è‡ªå®šä¹‰å¤´æ–‡ä»¶*/
 
 #endif

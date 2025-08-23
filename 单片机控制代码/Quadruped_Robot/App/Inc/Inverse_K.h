@@ -11,25 +11,25 @@
 #define Foot_Width 191.8
 #define Foot_Length 245
 
-//µ¥Î»£ºmm
+//å•ä½ï¼šmm
 #define a1 43.9
 #define a2 110
 #define a3 113
 
-//µ¥Î»£ºmm
-#define S_ 20   //ºáÒÆ²½³¤/Ğı×ª²½³¤
-#define S  50   //Ç°½ø²½³¤
-#define H  20   //¿ç²½¸ß¶È
-#define T  35  //²½Ì¬ÖÜÆÚ  
+//å•ä½ï¼šmm
+#define S_ 20   //ä¾§ç§»æ­¥é•¿/æ—‹è½¬åŠå¾„
+#define S  50   //å‰è¿›æ­¥é•¿
+#define H  20   //æŠ¬è¶³é«˜åº¦
+#define T  35  //æ­¥æ€å‘¨æœŸ  
 
-#define Beta acos(S_/sqrt(Foot_Width*Foot_Width+Foot_Length*Foot_Length))-atan2(Foot_Width,Foot_Length) //Ğı×ªÊ±YÖáÓëZÖá¼Ğ½Ç
+#define Beta acos(S_/sqrt(Foot_Width*Foot_Width+Foot_Length*Foot_Length))-atan2(Foot_Width,Foot_Length) //æ—‹è½¬æ—¶Yè½´ä¸Zè½´å¤¹è§’
 
-//°Ú¶¯Ïà³õÊ¼×ø±ê
+//æ‘†åŠ¨è…¿åˆå§‹åæ ‡
 #define SwayStatus_Xst 150
 #define SwayStatus_Yst 43.9
 #define SwayStatus_Zst -0.5*S
 
-//Ö§³ÅÏà³õÊ¼×ø±ê
+//æ”¯æ’‘è…¿åˆå§‹åæ ‡
 #define SupportingStatus_Xst 150
 #define SupportingStatus_Yst 43.9
 #define SupportingStatus_Zst 0.5*S
@@ -39,7 +39,7 @@
 #define Move_to_Left_SupportingStatus_Yst  SupportingStatus_Yst+0.5*S_
 #define Move_to_Right_SwayStatus_Yst       SwayStatus_Yst+0.5*S_
 #define Move_to_Right_SupportingStatus_Yst SupportingStatus_Yst-0.5*S_
-//ÈıÎ¬×ø±ê
+//ä¸‰ç»´åæ ‡
 typedef struct
 {
 	float x;
@@ -47,7 +47,7 @@ typedef struct
 	float z;
 } floatXYZ;
 
-//Å·À­½Ç
+//æ¬§æ‹‰è§’
 typedef struct 
 {
 	float R;
@@ -55,7 +55,7 @@ typedef struct
 	float Y;
 }floatRPY;
 
-//¹Ø½Ú×ª½Ç
+//å…³èŠ‚è½¬è§’
 typedef struct
 {
 	float theta_1;
@@ -65,10 +65,10 @@ typedef struct
 
 floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle);
 
-void inverse_kinematics(floatXYZ AB[],int len);
+void inverse_kinematics(floatXYZ AB[],int len);  //é€†è¿åŠ¨å­¦æ±‚è§£
 
-floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t);  //ÊäÈëÎªÊ±¼äÎ¢·Ö
+floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t);  //è¾“å…¥ä¸ºæ—¶é—´å¾®åˆ†
 
-floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t);  //ÊäÈëÎªÊ±¼äÎ¢·Ö
+floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t);  //è¾“å…¥ä¸ºæ—¶é—´å¾®åˆ†
 
 

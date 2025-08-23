@@ -4,17 +4,17 @@
 
 
 
-//µ¥ÍÈ¹Ø½Ú×ª½Ç
+//å„è…¿å…³èŠ‚è½¬è§’
 floatTheta Leg_angle[4];
 
-uint8_t mode;    //¹¤×÷Ä£Ê½
+uint8_t mode;    //è¿åŠ¨æ¨¡å¼
 
-/*Çó³öµ¥ÍÈÎ»ÖÃÏòÁ¿*/
+/*è®¡ç®—è…¿éƒ¨ä½ç½®å‘é‡*/
 floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle)
 {
-	//µ¥ÍÈÎ»ÖÃÏòÁ¿
+	//è…¿éƒ¨ä½ç½®å‘é‡
   floatXYZ AB[4];
-	//»¯Îª»¡¶ÈÖÆ
+	//è½¬ä¸ºå¼§åº¦åˆ¶
 	angle.R=angle.R*DEG_TO_RAD;
 	angle.P=angle.P*DEG_TO_RAD;
 	angle.Y=angle.Y*DEG_TO_RAD;
@@ -42,7 +42,7 @@ floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle)
 			}			
 		}
 	}
-	//¼ÆËãµÃµ½Ğı×ª¾ØÕóR[3][3]
+	//è®¡ç®—å¾—åˆ°æ—‹è½¬çŸ©é˜µR[3][3]
 	for(int i=0; i<3; i++) 
 	{		
 		for(int j=0; j<3; j++) 
@@ -55,28 +55,28 @@ floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle)
 	}
 
 	floatXYZ footprint_struct[4],body_struct[4];
-	//×óÇ°ÍÈ A1B1
+	//å·¦å‰è…¿ A1B1
 	footprint_struct[0].x =  0.5*Foot_Length;
 	footprint_struct[0].y =  0.5*Foot_Width;
 	footprint_struct[0].z =  0;
 	body_struct[0].x      =  0.5*Body_Length;
 	body_struct[0].y      =  0.5*Body_Width;
 	body_struct[0].z      = -Body_Thickness;
-	//ÓÒÇ°ÍÈ A2B2
+	//å³å‰è…¿ A2B2
 	footprint_struct[1].x =  0.5*Foot_Length;
 	footprint_struct[1].y = -0.5*Foot_Width;
 	footprint_struct[1].z =  0;
 	body_struct[1].x      =  0.5*Body_Length;
 	body_struct[1].y      = -0.5*Body_Width;
 	body_struct[1].z      = -Body_Thickness;
-  //×óºóÍÈ A3B3
+  //å·¦åè…¿ A3B3
 	footprint_struct[2].x = -0.5*Foot_Length;
 	footprint_struct[2].y =  0.5*Foot_Width;
 	footprint_struct[2].z =  0;
 	body_struct[2].x      = -0.5*Body_Length;
 	body_struct[2].y      =  0.5*Body_Width;
 	body_struct[2].z      = -Body_Thickness;	
-	//ÓÒºóÍÈ A4B4
+	//å³åè…¿ A4B4
 	footprint_struct[3].x = -0.5*Foot_Length;
 	footprint_struct[3].y = -0.5*Foot_Width;
 	footprint_struct[3].z =  0;
@@ -89,7 +89,7 @@ floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle)
 	AB[num].z=-pos.z-(R[2][0]*body_struct[num].x+R[2][1]*body_struct[num].y+R[2][2]*body_struct[num].z)+footprint_struct[num].z;
 	
 	float temp;
-  //×ø±êÏµ·½Ïòµ÷Õû
+  //åæ ‡ç³»è½¬æ¢è¿‡ç¨‹
 	temp=AB[num].x;
 	AB[num].x=-AB[num].z;
 	AB[num].z=temp;
@@ -98,31 +98,31 @@ floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle)
 }
 
 
-/*Çó³öÔË¶¯Ñ§Äæ½â*/
+/*é€†è¿åŠ¨å­¦è§£æ*/
 void inverse_kinematics(floatXYZ AB[],int len)
 {
 	for(int i=0;i<len;i++)
 	{
-		//Äæ½â
+		//è§£ç®—
 		float fai;
 		float omega;
 		if(i==0||i==2)
 			omega=atan2(-AB[i].y,AB[i].x);
 		else
 		  omega=atan2(AB[i].y,AB[i].x);
-		//theta_1·¶Î§ [-90,90]
+		//theta_1èŒƒå›´ [-90,90]
 		Leg_angle[i].theta_1=asin( a1/sqrt( pow(AB[i].x,2)+pow(AB[i].y,2) ) )+omega;
-		//theta_3·¶Î§ [-180,0]	
+		//theta_3èŒƒå›´ [-180,0]	
 		Leg_angle[i].theta_3=-acos((pow((AB[i].x*cos(Leg_angle[i].theta_1)+AB[i].y*sin(Leg_angle[i].theta_1)),2)+pow(AB[i].z,2)-pow(a2,2)-pow(a3,2))/(2*a2*a3));
 		fai=atan2(AB[i].z,(AB[i].y*sin(Leg_angle[i].theta_1)+AB[i].x*cos(Leg_angle[i].theta_1)));
-		//theta_2·¶Î§ [0,90]
+		//theta_2èŒƒå›´ [0,90]
 		Leg_angle[i].theta_2=asin(-a3*sin(Leg_angle[i].theta_3)/sqrt(pow((AB[i].x*cos(Leg_angle[i].theta_1)+AB[i].y*sin(Leg_angle[i].theta_1)),2)+pow(AB[i].z,2)))-fai;
 		//printf("Leg[%d]:theta_1=%1.f,theta_2=%1.f,theta_3=%1.f\n",i,Leg_angle[i].theta_1*RAD_TO_DEG,Leg_angle[i].theta_2*RAD_TO_DEG,Leg_angle[i].theta_3*RAD_TO_DEG);
 	}
 }
 
-//°Ú¶¯Ïà×ã¶Ë¹ì¼£
-floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ±¼äÎ¢·Ö
+//æ‘†åŠ¨è…¿è½¨è¿¹
+floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //è¾“å…¥ä¸ºæ—¶é—´å¾®åˆ†
 {
 	floatXYZ AB;
 	switch(GetMainState()) 
@@ -136,7 +136,7 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 					AB.y=SwayStatus_Yst;
 			}			 
 		 break;	
-		 /*ÏòÇ°*/
+		 /*å‰è¿›*/
 		 case MainState_Forward:
 		 {
 				AB.z=SwayStatus_Zst+S*(t/T-(sin(2*PI*t/T))/(2*PI));
@@ -146,7 +146,7 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 					AB.y=SwayStatus_Yst;
 			}
 		 break;
-		/*Ïòºó*/
+		/*åé€€*/
 		 case MainState_Backward:
 		 {
 				AB.z=-(SwayStatus_Zst+S*(t/T-(sin(2*PI*t/T))/(2*PI)));
@@ -156,7 +156,7 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 					AB.y=SwayStatus_Yst; 
 			}				
 		 break;		
-		/*Ïò×óÆ½ÒÆ*/
+		/*å‘å·¦å¹³ç§»*/
 		 case MainState_Move_to_Left:
 		 {
 				AB.z=0;
@@ -166,7 +166,7 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 					AB.y=Move_to_Left_SwayStatus_Yst+S_*(t/T-(sin(2*PI*t/T))/(2*PI));
 		 }	  
 		 break;	
-		 /*ÏòÓÒÆ½ÒÆ*/
+		 /*å‘å³å¹³ç§»*/
 		 case MainState_Move_to_Right:
 		 {
 				AB.z=0;
@@ -181,22 +181,22 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 			{
 				switch(num) 
 				{
-					case 0:   //×óÇ°ÍÈ
+					case 0:   //å·¦å‰è…¿
 						AB.y=SwayStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					break;
 					
-					case 1:   //ÓÒÇ°ÍÈ
+					case 1:   //å³å‰è…¿
 						AB.y=-SwayStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					break;
 					
-					case 2:   //×óºóÍÈ
+					case 2:   //å·¦åè…¿
 						AB.y=SwayStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
           break;
           					
-					case 3:   //ÓÒºóÍÈ
+					case 3:   //å³åè…¿
 						AB.y=-SwayStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
           break;          					
@@ -208,22 +208,22 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 		 {
 			 switch(num) 
 				{
-					case 0:   //×óÇ°ÍÈ
+					case 0:   //å·¦å‰è…¿
 						AB.y=SwayStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					break;
 					
-					case 1:   //ÓÒÇ°ÍÈ
+					case 1:   //å³å‰è…¿
 						AB.y=-SwayStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=+0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					break;
 					
-					case 2:   //×óºóÍÈ
+					case 2:   //å·¦åè…¿
 						AB.y=SwayStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
           break;
           					
-					case 3:   //ÓÒºóÍÈ
+					case 3:   //å³åè…¿
 						AB.y=-SwayStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
 					  AB.z=+0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*(t/T-(sin(2*PI*t/T))/(2*PI));
           break;          					
@@ -238,8 +238,8 @@ floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ
 	return AB;
 }
 
-//Ö§³ÅÏà×ã¶Ë¹ì¼£
-floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //ÊäÈëÎªÊ±¼äÎ¢·Ö
+//æ”¯æ’‘è…¿è½¨è¿¹
+floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //è¾“å…¥ä¸ºæ—¶é—´å¾®åˆ†
 {
 	floatXYZ AB;
 	switch(GetMainState()) 
@@ -253,7 +253,7 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 					AB.y=SwayStatus_Yst;
 			}			 
 		 break;	
-		 /*ÏòÇ°*/
+		 /*å‰è¿›*/
 		 case MainState_Forward:
 		 {
 				AB.z=SupportingStatus_Zst-S*t/T;
@@ -263,7 +263,7 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 					AB.y=SupportingStatus_Yst;
 			}
 		 break;
-		/*Ïòºó*/
+		/*åé€€*/
 		 case MainState_Backward:
 		 {
 				AB.z=-SupportingStatus_Zst+S*t/T;
@@ -273,7 +273,7 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 					AB.y=SupportingStatus_Yst;
 			}				
 		 break;		
-		/*Ïò×óÆ½ÒÆ*/
+		/*å‘å·¦å¹³ç§»*/
 		 case MainState_Move_to_Left:
 		 {
 				AB.z=0;
@@ -283,7 +283,7 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 					AB.y=Move_to_Left_SupportingStatus_Yst-S_*t/T;
 		 }	  
 		 break;	
-		 /*ÏòÓÒÆ½ÒÆ*/
+		 /*å‘å³å¹³ç§»*/
 		 case MainState_Move_to_Right:
 		 {
 				AB.z=0;
@@ -298,22 +298,22 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 			{
 				switch(num) 
 				{
-					case 0:   //×óÇ°ÍÈ
+					case 0:   //å·¦å‰è…¿
 						AB.y=SupportingStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*t/T;
 					break;
 					
-					case 1:   //ÓÒÇ°ÍÈ
+					case 1:   //å³å‰è…¿
 						AB.y=-SupportingStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*t/T;
 					break;
 					
-					case 2:   //×óºóÍÈ
+					case 2:   //å·¦åè…¿
 						AB.y=SupportingStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*t/T;
           break;
           					
-					case 3:   //ÓÒºóÍÈ
+					case 3:   //å³åè…¿
 						AB.y=-SupportingStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*t/T;
           break;          					
@@ -325,22 +325,22 @@ floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t)  //Ê
 			{
 				switch(num) 
 				{
-					case 0:   //×óÇ°ÍÈ
+					case 0:   //å·¦å‰è…¿
 						AB.y=SupportingStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*t/T;
 					break;
 					
-					case 1:   //ÓÒÇ°ÍÈ
+					case 1:   //å³å‰è…¿
 						AB.y=-SupportingStatus_Yst+0.5*S_*sin(Beta)-0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*t/T;
 					break;
 					
-					case 2:   //×óºóÍÈ
+					case 2:   //å·¦åè…¿
 						AB.y=SupportingStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=0.5*S_*cos(Beta)-0.5*2*S_*cos(Beta)*t/T;
           break;
           					
-					case 3:   //ÓÒºóÍÈ
+					case 3:   //å³åè…¿
 						AB.y=-SupportingStatus_Yst-0.5*S_*sin(Beta)+0.5*2*S_*sin(Beta)*t/T;
 					  AB.z=-0.5*S_*cos(Beta)+0.5*2*S_*cos(Beta)*t/T;
           break;          					

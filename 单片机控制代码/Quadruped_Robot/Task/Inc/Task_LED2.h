@@ -1,5 +1,5 @@
 /*
- * @Description: CANÍ¨Ñ¶Í·ÎÄ¼ş¶¨Òå
+ * @Description: CANé€šè®¯å¤´æ–‡ä»¶å£°æ˜
  * @Author: Mr Zhang
  * @Github: https://github.com/bigfatpaper
  * @Date: 2019-10-13 14:00:36
@@ -7,49 +7,49 @@
  * @LastEditTime: 2019-10-16 23:58:33
  */
 
-/*±àÒëÔ¤´¦Àí*/
+/*å¤´æ–‡ä»¶é¢„å£°æ˜*/
 #ifndef __TASKS_CAN_H
 #define __TASKS_CAN_H
 
-/*Íâ²¿ÉùÃ÷Ô¤´¦Àí*/
+/*å¤–éƒ¨å˜é‡é¢„å£°æ˜*/
 #ifdef __TASK_CAN_GLOBALS
 #define TASK_CAN_EXT
 #else
 #define TASK_CAN_EXT extern
 #endif
-/*Íâ²¿ÉùÃ÷Ô¤´¦Àí½áÊø*/
+/*å¤–éƒ¨å˜é‡é¢„å£°æ˜ç»“æŸ*/
 
-/*Í·ÎÄ¼ş*/
+/*å¤´æ–‡ä»¶*/
 #include "Task_init.h"
-/*°üº¬Í·ÎÄ¼ş½áÊø*/
+/*åŒ…å«å¤´æ–‡ä»¶ç»“æŸ*/
 
-/*ºê¶¨Òå*/
-#define CANSEND_1 1                        /*CANSEND·¢ËÍ 1 0x200 2 0x1ff*/
+/*å®å®šä¹‰*/
+#define CANSEND_1 1                        /*CANSENDé€‰æ‹© 1 0x200 2 0x1ff*/
 #define CANSEND_2 2
-/*ºê¶¨Òå½áÊø*/
+/*å®å®šä¹‰ç»“æŸ*/
 
-/*½á¹¹Ìå¶¨Òå*/
+/*ç»“æ„ä½“å®šä¹‰*/
 
-typedef struct                             /*CAN·¢ËÍ½á¹¹Ìå*/
+typedef struct                             /*CANå‘é€ç»“æ„ä½“*/
 {
-    uint8_t            CANx;               /* CAN1 or CAN2 ·¢ËÍ*/
+    uint8_t            CANx;               /* CAN1 or CAN2 é€‰æ‹©*/
     uint32_t           stdid;              /* ID: CAN1 0X200  CAN2 0X1FF */
-		uint8_t            Data[8];            /* CAN·¢ËÍÊı¾İ*/
+		uint8_t            Data[8];            /* CANå‘é€æ•°æ®*/
 }CanSend_Type;
 
-/*½á¹¹Ìå¶¨Òå½áÊø*/
+/*ç»“æ„ä½“å®šä¹‰ç»“æŸ*/
 
-/*±äÁ¿ÉùÃ÷*/
-TASK_CAN_EXT CanSend_Type CAN_Tx_Msg;      /*CAN·¢ËÍ±äÁ¿¶¨Òå*/
-/*±äÁ¿ÉùÃ÷½áÊø*/
+/*å…¨å±€å˜é‡*/
+TASK_CAN_EXT CanSend_Type CAN_Tx_Msg;      /*CANå‘é€å˜é‡å£°æ˜*/
+/*å…¨å±€å˜é‡å£°æ˜ç»“æŸ*/
 
-/*º¯ÊıÉùÃ÷*/
-/*CANµÄ³õÊ¼»¯º¯Êı ÂË²¨ºÍÊ¹ÄÜÖĞ¶Ï*/
+/*å‡½æ•°å£°æ˜*/
+/*CANçš„åˆå§‹åŒ–å‡½æ•° æ­¤å¤„ä¸å¯ç”¨ä¸­æ–­*/
 void CAN_Init(CAN_HandleTypeDef *hcan);
 void CAN_Recieve(CAN_HandleTypeDef *hcan);
 
 extern int16_t delta_Mechanical_angle(int16_t speed, uint16_t angle_last, uint16_t angle_now);
-/*º¯ÊıÉùÃ÷½áÊø*/
+/*å‡½æ•°å£°æ˜ç»“æŸ*/
 
 #endif
-/*±àÒëÔ¤´¦Àí½áÊø*/
+/*å¤´æ–‡ä»¶é¢„å£°æ˜ç»“æŸ*/

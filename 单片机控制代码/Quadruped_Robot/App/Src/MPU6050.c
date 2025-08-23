@@ -4,7 +4,7 @@
 #include "Inverse_K.h"
 
 
-/*******USART3ÍÓÂİÒÇÏà¹Ø²ÎÊı*******/
+/*******USART3é™€èºä»ªæ•°æ®æ¥æ”¶å˜é‡*******/
 extern unsigned char Re_buf[11];
 extern unsigned char sign;
 float a[3]={0},w[3]={0},angle[3]={0};
@@ -15,13 +15,13 @@ float gyro_offset[3]={0};
 int Gyro_calibration_times=0;
 int Gyro_calibration_times2=0;
 
-float q0 = 1, q1 = 0, q2 = 0, q3 = 0;    // quaternion elements representing the estimated orientation  ËÄÔªÊı
+float q0 = 1, q1 = 0, q2 = 0, q3 = 0;    // quaternion elements representing the estimated orientation  å››å…ƒæ•°
 float exInt = 0, eyInt = 0, ezInt = 0;    // scaled integral error  
 struct floatRPY Q_ANGLE;
 
 extern void LegAngle_to_ServoPos(struct floatXYZ pos,struct floatRPY angle);
 
-/*****ÍÓÂİÒÇÊı¾İ½ÓÊÕº¯Êı******/
+/*****é™€èºä»ªæ•°æ®è§£æå‡½æ•°******/
 void Gyroscopetest(void)
 {
 	
@@ -30,14 +30,14 @@ void Gyroscopetest(void)
    {  
       memcpy(Temp,Re_buf,11);
       sign=0;
-      if(Re_buf[0]==0x55)       //¼ì²éÖ¡Í·
+      if(Re_buf[0]==0x55)       //æ£€æŸ¥å¸§å¤´
       {  	
 				switch(Re_buf[1])
             {
-               case 0x51: //¼ÓËÙ¶È°ü
-                  a[0] = ((short)(Temp[3]<<8 | Temp[2]))/32768.0*16*9.8;      //XÖá¼ÓËÙ¶È
-                  a[1] = ((short)(Temp[5]<<8 | Temp[4]))/32768.0*16*9.8;      //YÖá¼ÓËÙ¶È
-                  a[2] = ((short)(Temp[7]<<8 | Temp[6]))/32768.0*16*9.8;      //ZÖá¼ÓËÙ¶È
+               case 0x51: //åŠ é€Ÿåº¦åŒ…
+                  a[0] = ((short)(Temp[3]<<8 | Temp[2]))/32768.0*16*9.8;      //Xè½´åŠ é€Ÿåº¦
+                  a[1] = ((short)(Temp[5]<<8 | Temp[4]))/32768.0*16*9.8;      //Yè½´åŠ é€Ÿåº¦
+                  a[2] = ((short)(Temp[7]<<8 | Temp[6]))/32768.0*16*9.8;      //Zè½´åŠ é€Ÿåº¦
 							 /***
 									if(Gyro_calibration_times<50)
 							    {
@@ -53,12 +53,12 @@ void Gyroscopetest(void)
 										 a[2]=9.8+a[2]-acc_offset[2]/50;	
 									}		
 							 ***/
-									// T    = ((short)(Temp[9]<<8 | Temp[8]))/340.0+36.25;      //ÎÂ¶È
+									// T    = ((short)(Temp[9]<<8 | Temp[8]))/340.0+36.25;      //æ¸©åº¦
                   break;
-               case 0x52: //½ÇËÙ¶È°ü
-                  w[0] = ((short)(Temp[3]<<8| Temp[2]))/32768.0*2000;      //XÖá½ÇËÙ¶È
-                  w[1] = ((short)(Temp[5]<<8| Temp[4]))/32768.0*2000;      //YÖá½ÇËÙ¶È
-                  w[2] = ((short)(Temp[7]<<8| Temp[6]))/32768.0*2000;      //ZÖá½ÇËÙ¶È
+               case 0x52: //è§’é€Ÿåº¦åŒ…
+                  w[0] = ((short)(Temp[3]<<8| Temp[2]))/32768.0*2000;      //Xè½´è§’é€Ÿåº¦
+                  w[1] = ((short)(Temp[5]<<8| Temp[4]))/32768.0*2000;      //Yè½´è§’é€Ÿåº¦
+                  w[2] = ((short)(Temp[7]<<8| Temp[6]))/32768.0*2000;      //Zè½´è§’é€Ÿåº¦
 							 /****
 							 		if(Gyro_calibration_times2<50)
 									{
@@ -74,30 +74,30 @@ void Gyroscopetest(void)
 										w[2]=w[2]-gyro_offset[2]/50;	
 									}
 							 ****/
-                 // T    = ((short)(Temp[9]<<8| Temp[8]))/340.0+36.25;      //ÎÂ¶È
+                 // T    = ((short)(Temp[9]<<8| Temp[8]))/340.0+36.25;      //æ¸©åº¦
                   break;
-               case 0x53: //½Ç¶È°ü
-                  angle[0] = ((short)(Temp[3]<<8| Temp[2]))/32768.0*180;   //XÖá¹ö×ª½Ç
-                  angle[1] = ((short)(Temp[5]<<8| Temp[4]))/32768.0*180;   //YÖá¸©Ñö½Ç
-                  angle[2] = ((short)(Temp[7]<<8| Temp[6]))/32768.0*180;   //ZÖáÆ«º½½Ç
+               case 0x53: //è§’åº¦åŒ…
+                  angle[0] = ((short)(Temp[3]<<8| Temp[2]))/32768.0*180;   //Xè½´æ»šè½¬è§’
+                  angle[1] = ((short)(Temp[5]<<8| Temp[4]))/32768.0*180;   //Yè½´ä¿¯ä»°è§’
+                  angle[2] = ((short)(Temp[7]<<8| Temp[6]))/32768.0*180;   //Zè½´åèˆªè§’
 	
-                 // T        = ((short)(Temp[9]<<8| Temp[8]))/340.0+36.25;   //ÎÂ¶È
+                 // T        = ((short)(Temp[9]<<8| Temp[8]))/340.0+36.25;   //æ¸©åº¦
                   break;
                default:  break;
             }
 						//if(Gyro_calibration_times<50||Gyro_calibration_times2<50)
 						//	printf("Gyro_calibration_times=%d\r\n",Gyro_calibration_times);
 						//else
-							printf("X¼ÓËÙ¶È:%.2f  Y¼ÓËÙ¶È:%.2f  Z¼ÓËÙ¶È:%.2f X½ÇËÙ¶È:%.2f  Y½ÇËÙ¶È:%.2f  Z½ÇËÙ¶È:%.2f   X½Ç¶È:%.2f  Y½Ç¶È:%.2f  Z½Ç¶È:%.2f\r\n",
+							printf("XåŠ é€Ÿåº¦:%.2f  YåŠ é€Ÿåº¦:%.2f  ZåŠ é€Ÿåº¦:%.2f Xè§’é€Ÿåº¦:%.2f  Yè§’é€Ÿåº¦:%.2f  Zè§’é€Ÿåº¦:%.2f   Xè§’åº¦:%.2f  Yè§’åº¦:%.2f  Zè§’åº¦:%.2f\r\n",
 						 				a[0],a[1],a[2],w[0],w[1],w[2],angle[0],angle[1],angle[2]);
-																//Êä³ö¸÷²ÎÊı
+																//å››å…ƒæ•°è§£ç®—
       }  			
    } 
 
   
 }
 
-/*******ÍÓÂİÒÇÊı¾İ´¦Àíº¯Êı******/
+/*******é™€èºä»ªæ•°æ®å¤„ç†å‡½æ•°******/
 void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 {
 	float temp[4];
@@ -117,32 +117,32 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
   float q2q3 = q2*q3;
   float q3q3 = q3*q3;
  
-  norm = sqrt(ax*ax + ay*ay + az*az);       //accÊı¾İ¹éÒ»»¯
+  norm = sqrt(ax*ax + ay*ay + az*az);       //accæ•°æ®å½’ä¸€åŒ–
 	if(norm==0)  return;
   ax = ax /norm;
   ay = ay / norm;
   az = az / norm;
  
-  // estimated direction of gravity and flux (v and w)              ¹À¼ÆÖØÁ¦·½ÏòºÍÁ÷Á¿/±äÇ¨
-  vx = 2*(q1q3 - q0q2);                                             //ËÄÔªÊıÖĞxyzµÄ±íÊ¾
+  // estimated direction of gravity and flux (v and w)              é‡åŠ›åŠ é€Ÿåº¦å’Œåœ°ç£åœºæ–¹å‘/æ•°å€¼
+  vx = 2*(q1q3 - q0q2);                                             //å››å…ƒæ•°ä¸xyzçš„è¡¨ç¤º
   vy = 2*(q0q1 + q2q3);
   vz = q0q0 - q1q1 - q2q2 + q3q3 ;
  
   // error is sum of cross product between reference direction of fields and direction measured by sensors
-  ex = (ay*vz - az*vy) ;                                             //ÏòÁ¿Íâ»ıÏà¼õµÃµ½²î·Ö£¬¾ÍÊÇÎó²î
+  ex = (ay*vz - az*vy) ;                                             //ç”¨å¤–ç§¯è¯¯å·®æ¥ä¿®æ­£é™€èºä»ªçš„æ¼‚ç§»è¯¯å·®
   ey = (az*vx - ax*vz) ;
   ez = (ax*vy - ay*vx) ;
  
-  exInt = exInt + ex * Ki * 2 * halfT;                                //¶ÔÎó²î»ı·Ö
+  exInt = exInt + ex * Ki * 2 * halfT;                                //è¯¯å·®ç§¯åˆ†
   eyInt = eyInt + ey * Ki * 2 * halfT;
   ezInt = ezInt + ez * Ki * 2 * halfT;
  
   // adjusted gyroscope measurements
-  gx = gx + Kp*ex + exInt;                                              //½«Îó²îPIºó²¹³¥µ½ÍÓÂİÒÇ£¬¼´²¹³¥ÁãµãÆ¯ÒÆ
+  gx = gx + Kp*ex + exInt;                                              //é€šè¿‡PIè¡¥å¿é™€èºä»ªè§’é€Ÿåº¦ï¼Œæ¶ˆé™¤é™€èºä»ªæ¼‚ç§»
   gy = gy + Kp*ey + eyInt;
-  gz = gz + Kp*ez + ezInt;                                          //ÕâÀïµÄgzÓÉÓÚÃ»ÓĞ¹Û²âÕß½øĞĞ½ÃÕı»á²úÉúÆ¯ÒÆ£¬±íÏÖ³öÀ´µÄ¾ÍÊÇ»ı·Ö×ÔÔö»ò×Ô¼õ
+  gz = gz + Kp*ez + ezInt;                                          //è¿™é‡Œgzæ²¡æœ‰è§‚æµ‹çŸ¢é‡è¿›è¡Œèåˆæ ¡æ­£ï¼Œå¯èƒ½å‡ºç°ç´¯è®¡è¯¯å·®ï¼Œéœ€è¦äººå·¥é›¶åæ ¡æ­£
  
-  // integrate quaternion rate and normalise                           //ËÄÔªÊıÎ¢·Ö·½³Ì
+  // integrate quaternion rate and normalise                           //å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹
   q0 = q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
   q1 = q1 + (q0*gx + q2*gz - q3*gy)*halfT;
   q2 = q2 + (q0*gy - q1*gz + q3*gx)*halfT;
@@ -163,7 +163,7 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
   Q_ANGLE.R = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2* q2 + 1); // roll
 }
 
-/*****ÍÓÂİÒÇÏà¹Øº¯Êı*****/
+/*****å››å…ƒæ•°è§£ç®—å‡½æ•°*****/
 struct floatRPY MUP6050_Data_Process(void)
 {
 	Gyroscopetest();

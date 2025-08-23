@@ -1,7 +1,7 @@
 //#include "Inverse_K.h"
 //#define Kp 10.0f                        // proportional gain governs rate of convergence to accelerometer/magnetometer
 //#define Ki 0.001f                       // integral gain governs rate of convergence of gyroscope biases
-//#define halfT 0.005f                    // half the sample period   ²ÉÑùÖÜÆÚµÄÒ»°ë
+//#define halfT 0.005f                    // half the sample period   é‡‡æ ·å‘¨æœŸçš„ä¸€åŠ
 
 
 //void Gyroscopetest(void);

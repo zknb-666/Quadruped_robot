@@ -1,8 +1,8 @@
-/*Í·ÎÄ¼şÔ¤´¦Àí*/
+/*å¤´æ–‡ä»¶é¢„å£°æ˜*/
 #define __TASK_INIT_GLOBALS
-/*Í·ÎÄ¼şÔ¤´¦Àí½áÊø*/
+/*å¤´æ–‡ä»¶é¢„å£°æ˜ç»“æŸ*/
 
-/*°üº¬Í·ÎÄ¼ş*/
+/*åŒ…å«å¤´æ–‡ä»¶*/
 #include "Task_init.h"
 #include "tim.h"
 //#include "MPU6050.h"
@@ -23,15 +23,15 @@ static void Servo_Init(void);
   */
 void Task_Init_Start(void *parameters)
 {
-	taskENTER_CRITICAL();           //³õÊ¼»¯¹ı³ÌÖĞ½ûÖ¹ÆäËûÈÎÎñ½øĞĞ
+	taskENTER_CRITICAL();           //è¿›å…¥ä¸´ç•ŒåŒºï¼Œç¦æ­¢ä»»åŠ¡è°ƒåº¦å™¨
 	
-	//IMU_Init();                   //ÍÓÂİÒÇ³õÊ¼»¯
-	Servo_Init();                   //PWM³õÊ¼»¯
+	//IMU_Init();                   //é™€èºä»ªåˆå§‹åŒ–
+	Servo_Init();                   //PWMåˆå§‹åŒ–
   printf("** Peripheral inited successfully. ** \r\n");
 	
-	HAL_Delay(2000);                //ÑÓÊ±Á½ÃëÈÃÈÎÎñÍê³É
-	vTaskDelete(NULL);              //É¾³ı³õÊ¼»¯µÄÈÎÎñ
-	taskEXIT_CRITICAL();            //ÍË³öÁÙ½çÇø
+	HAL_Delay(2000);                //å»¶æ—¶ï¼Œç­‰å¾…å¤–è®¾å¯åŠ¨
+	vTaskDelete(NULL);              //åˆ é™¤åˆå§‹åŒ–ä»»åŠ¡
+	taskEXIT_CRITICAL();            //é€€å‡ºä¸´ç•ŒåŒº
 }
 
 /* ----------------------- Static Function Definitions ---------------------- */

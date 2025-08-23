@@ -54,11 +54,11 @@ extern osMailQId myMail02Handle;
 uint8_t data2[20];
 //extern osMailQId myMail03Handle;	
 //uint8_t data3[20];
-/*******USART3ÍÓÂİÒÇÏà¹Ø²ÎÊı*******/
+/*******USART3é™€èºä»ªæ•°æ®æ¥æ”¶å˜é‡*******/
 uint8_t Re_buf[11],counter=0;
 static unsigned char Temp[11];
 
-/*******UART4³¬Éù²¨Ä£¿éÏà¹Ø²ÎÊı*******/
+/*******UART4è¶…å£°æ³¢æ¨¡å—æ•°æ®æ¥æ”¶å˜é‡*******/
 uint8_t Re_buf2[10],counter2=0;
 static unsigned char Temp2[10];
 uint8_t data3[10];
@@ -211,14 +211,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		if(counter == 0 && Temp[0] != 0x55)
 		{		
 			HAL_UART_Receive_IT(&huart3,data2,1);
-			return; //µÚ0ºÅÊı¾İ²»ÊÇÖ¡Í·£¬Ìø¹ı   
+			return; //ç¬¬0ä¸ªæ•°æ®ä¸æ˜¯å¸§å¤´ï¼Œä¸¢å¼ƒ   
 		}			
     counter++; 
 		//printf("%d \n",counter);
-    if(counter==11) //½ÓÊÕµ½11¸öÊı¾İ
+    if(counter==11) //æ¥æ”¶åˆ°11ä¸ªæ•°æ®
     { 
-			memcpy(Re_buf,Temp,11);   //½«TempÊı×é¸´ÖÆµ½Re_buf
-      counter=0;                //ÖØĞÂ¸³Öµ£¬×¼±¸ÏÂÒ»Ö¡Êı¾İµÄ½ÓÊÕ
+			memcpy(Re_buf,Temp,11);   //å°†Tempæ•°ç»„å¤åˆ¶åˆ°Re_buf
+      counter=0;                //é‡æ–°èµ‹å€¼ï¼Œå‡†å¤‡ä¸‹ä¸€å¸§æ•°æ®çš„æ¥æ”¶
 			osMailPut(myMail02Handle,Re_buf);
     }
 		HAL_UART_Receive_IT(&huart3,data2,1);
@@ -230,13 +230,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		if(counter2 == 0 && Temp2[0] != 68) 
 		{		
 			HAL_UART_Receive_IT(&huart4,data3,1);
-			return; //µÚ0ºÅÊı¾İ²»ÊÇÖ¡Í·£¬Ìø¹ı   
+			return; //ç¬¬0ä¸ªæ•°æ®ä¸æ˜¯å¸§å¤´ï¼Œä¸¢å¼ƒ   
 		}			
     counter2++; 
-    if(counter2==5) //½ÓÊÕµ½5¸öÊı¾İ
+    if(counter2==5) //æ¥æ”¶åˆ°5ä¸ªæ•°æ®
     { 
-			memcpy(Re_buf2,Temp2,5);   //½«TempÊı×é¸´ÖÆµ½Re_buf
-      counter2=0;                //ÖØĞÂ¸³Öµ£¬×¼±¸ÏÂÒ»Ö¡Êı¾İµÄ½ÓÊÕ
+			memcpy(Re_buf2,Temp2,5);   //å°†Tempæ•°ç»„å¤åˆ¶åˆ°Re_buf
+      counter2=0;                //é‡æ–°èµ‹å€¼ï¼Œå‡†å¤‡ä¸‹ä¸€å¸§æ•°æ®çš„æ¥æ”¶
     }
 		HAL_UART_Receive_IT(&huart4,data3,1);
 	}	
