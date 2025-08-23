@@ -70,8 +70,6 @@ static void Hardware_Config_Fix_GPIO_For_I2C(void)
     /* 初始状态设为高电平 */
     I2C_SCL_High();
     I2C_SDA_High();
-    
-    DEBUG_INFO("I2C GPIO configuration fixed: PB10(SCL), PB11(SDA)\r\n");
 }
 
 /* 重新配置GPIO为超声波功能 */
@@ -97,8 +95,6 @@ static void Hardware_Config_Fix_GPIO_For_Ultrasonic(void)
     
     /* TRIG初始状态为低电平 */
     HAL_GPIO_WritePin(ULTRASONIC_TRIG_PORT, ULTRASONIC_TRIG_PIN, GPIO_PIN_RESET);
-    
-    DEBUG_INFO("Ultrasonic GPIO configuration fixed: PC11(TRIG), PC10(ECHO)\r\n");
 }
 
 /* ==================== 超声波控制函数 ==================== */
@@ -120,8 +116,7 @@ float Hardware_Ultrasonic_Measure(void)
     uint32_t timeout = HAL_GetTick() + 100; // 100ms超时
     while (HAL_GPIO_ReadPin(ULTRASONIC_ECHO_PORT, ULTRASONIC_ECHO_PIN) == GPIO_PIN_RESET) {
         if (HAL_GetTick() > timeout) {
-            DEBUG_WARN("Ultrasonic: Echo signal timeout (waiting for high)\r\n");
-            return -1.0f;
+            return -1.0f;  // 简化错误处理
         }
     }
     start_time = HAL_GetTick();
@@ -130,8 +125,7 @@ float Hardware_Ultrasonic_Measure(void)
     timeout = HAL_GetTick() + 200; // 200ms超时
     while (HAL_GPIO_ReadPin(ULTRASONIC_ECHO_PORT, ULTRASONIC_ECHO_PIN) == GPIO_PIN_SET) {
         if (HAL_GetTick() > timeout) {
-            DEBUG_WARN("Ultrasonic: Echo signal timeout (waiting for low)\r\n");
-            return -1.0f;
+            return -1.0f;  // 简化错误处理
         }
     }
     end_time = HAL_GetTick();
@@ -140,7 +134,6 @@ float Hardware_Ultrasonic_Measure(void)
     echo_time = end_time - start_time;
     distance = (echo_time * 1000.0f * 0.034f) / 2.0f; // 转换为厘米
     
-    DEBUG_INFO("Ultrasonic: echo_time=%lu ms, distance=%.2f cm\r\n", echo_time, distance);
     return distance;
 }
 
@@ -268,8 +261,7 @@ uint8_t Hardware_MPU6050_Init(void)
     /* 读取WHO_AM_I寄存器验证连接 */
     who_am_i = Hardware_MPU6050_ReadReg(0x75);
     if (who_am_i != 0x68) {
-        DEBUG_ERROR("MPU6050 connection failed! WHO_AM_I=0x%02X (expected 0x68)\r\n", who_am_i);
-        return 0;
+        return 0;  // 简化错误处理
     }
     
     /* 基本配置 */
@@ -280,7 +272,6 @@ uint8_t Hardware_MPU6050_Init(void)
     Hardware_MPU6050_WriteReg(0x1B, 0x18); // 陀螺仪满量程±2000°/s
     Hardware_MPU6050_WriteReg(0x1C, 0x01); // 加速度计满量程±2g
     
-    DEBUG_INFO("MPU6050 initialized successfully! WHO_AM_I=0x%02X\r\n", who_am_i);
     return 1;
 }
 
@@ -321,10 +312,6 @@ uint8_t Hardware_MPU6050_ReadSensorData(float *acc, float *gyro, float *temp)
         *temp = raw_data[3] / 340.0f + 36.53f;  // 温度
     }
     
-    DEBUG_INFO("MPU6050 Raw: ACC(%d,%d,%d) GYRO(%d,%d,%d) TEMP(%d)\r\n",
-               raw_data[0], raw_data[1], raw_data[2], 
-               raw_data[4], raw_data[5], raw_data[6], raw_data[3]);
-    
     return 1;
 }
 
@@ -332,44 +319,29 @@ uint8_t Hardware_MPU6050_ReadSensorData(float *acc, float *gyro, float *temp)
 
 void Hardware_Config_Init(void)
 {
-    DEBUG_INFO("Starting hardware configuration fix...\r\n");
-    
     /* 重新配置GPIO */
     Hardware_Config_Fix_GPIO_For_I2C();
     Hardware_Config_Fix_GPIO_For_Ultrasonic();
     
     /* 初始化MPU6050 */
-    if (Hardware_MPU6050_Init()) {
-        DEBUG_INFO("Hardware fix: MPU6050 initialized successfully\r\n");
-    } else {
-        DEBUG_ERROR("Hardware fix: MPU6050 initialization failed\r\n");
-    }
+    Hardware_MPU6050_Init();
 }
 
 void Hardware_Config_Print_Status(void)
 {
-    DEBUG_INFO("=== Hardware Configuration Status ===\r\n");
-    DEBUG_INFO("Current pin assignments:\r\n");
-    DEBUG_INFO("  PB10: I2C_SCL (fixed)\r\n");
-    DEBUG_INFO("  PB11: I2C_SDA (fixed)\r\n");
-    DEBUG_INFO("  PC10: ECHO (fixed)\r\n");
-    DEBUG_INFO("  PC11: TRIG (fixed)\r\n");
-    DEBUG_INFO("=====================================\r\n");
+    // 移除详细状态输出，保持静默
 }
 
 /* 提供给外部调用的测试函数 */
 void Hardware_Test_MPU6050(void)
 {
     uint8_t who_am_i = Hardware_MPU6050_ReadReg(0x75);
-    DEBUG_INFO("MPU6050 WHO_AM_I test: 0x%02X %s\r\n", who_am_i, 
-               (who_am_i == 0x68) ? "(OK)" : "(FAILED)");
-    
     if (who_am_i == 0x68) {
         float acc[3], gyro[3], temp;
-        if (Hardware_MPU6050_ReadSensorData(acc, gyro, &temp)) {
-            DEBUG_INFO("MPU6050 Data - ACC(%.2f,%.2f,%.2f) GYRO(%.2f,%.2f,%.2f) TEMP(%.1f°C)\r\n",
-                       acc[0], acc[1], acc[2], gyro[0], gyro[1], gyro[2], temp);
-        }
+        Hardware_MPU6050_ReadSensorData(acc, gyro, &temp);
+        // 只在测试时输出简化信息
+        DEBUG_INFO("MPU6050 OK - ACC(%.1f,%.1f,%.1f) GYRO(%.1f,%.1f,%.1f) T=%.1f\r\n",
+                   acc[0], acc[1], acc[2], gyro[0], gyro[1], gyro[2], temp);
     }
 }
 
@@ -377,8 +349,6 @@ void Hardware_Test_Ultrasonic(void)
 {
     float distance = Hardware_Ultrasonic_Measure();
     if (distance > 0) {
-        DEBUG_INFO("Ultrasonic test: %.2f cm\r\n", distance);
-    } else {
-        DEBUG_ERROR("Ultrasonic test failed\r\n");
+        DEBUG_INFO("Ultrasonic: %.1f cm\r\n", distance);
     }
 }

@@ -144,17 +144,6 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of Task_DataSender */
   osThreadDef(Task_DataSender, Task_DataSender_Start, osPriorityNormal, 0, 512);
   Task_DataSenderHandle = osThreadCreate(osThread(Task_DataSender), NULL);
-  
-  // 调试: 检查任务是否创建成功
-  if (Task_DataSenderHandle != NULL) {
-    printf("[DEBUG] Data_Sender task created successfully\r\n");
-    
-    // 测试：直接调用任务函数一次来验证它是否工作
-    printf("[DEBUG] Testing task function directly...\r\n");
-    // 注意：不能在这里直接调用，会阻塞初始化
-  } else {
-    printf("[ERROR] Failed to create Data_Sender task\r\n");
-  }
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

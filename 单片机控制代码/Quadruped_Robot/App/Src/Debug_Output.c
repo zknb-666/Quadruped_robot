@@ -22,8 +22,8 @@ void Debug_Init(void)
 {
     g_debug_level = DEBUG_LEVEL_INFO;
     
-    // 发送初始化信息到蓝牙
-    const char *init_msg = "\r\n=== Debug Output Redirected to Bluetooth (USART2) ===\r\n";
+    // 简化初始化信息
+    const char *init_msg = "[DEBUG] Init OK\r\n";
     HAL_UART_Transmit(DEBUG_UART_HANDLE, (uint8_t*)init_msg, strlen(init_msg), DEBUG_TIMEOUT);
 }
 
@@ -34,9 +34,7 @@ void Debug_Init(void)
 void Debug_SetLevel(DebugLevel_t level)
 {
     g_debug_level = level;
-    
-    snprintf(debug_buffer, sizeof(debug_buffer), "Debug level set to: %d\r\n", level);
-    HAL_UART_Transmit(DEBUG_UART_HANDLE, (uint8_t*)debug_buffer, strlen(debug_buffer), DEBUG_TIMEOUT);
+    // 移除调试级别设置的输出信息
 }
 
 /**

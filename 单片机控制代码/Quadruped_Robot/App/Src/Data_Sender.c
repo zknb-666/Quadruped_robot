@@ -28,8 +28,8 @@ void DataSender_Init(void)
     memset(&g_combined_data, 0, sizeof(Combined_DataPacket_t));
     g_packet_counter = 0;
     
-    // 发送初始化完成标志
-    HAL_UART_Transmit(&huart2, (uint8_t*)"[SMARTNAV] Data Sender Initialized\r\n", 37, 1000);
+    // 简化初始化信息
+    HAL_UART_Transmit(&huart2, (uint8_t*)"[INIT] Data Sender OK\r\n", 23, 1000);
 }
 
 /**
@@ -196,28 +196,15 @@ uint8_t DataSender_SendStatus(uint8_t status)
  */
 void Task_DataSender_Start(void *parameters)
 {
-    static uint32_t test_counter = 0;
-    
-    // 立即发送任务启动确认消息 - 使用简单的字符串
-    char startup_msg[] = "[DATASENDER] Task started!\r\n";
-    HAL_UART_Transmit(&huart2, (uint8_t*)startup_msg, sizeof(startup_msg)-1, 1000);
+    // 简化启动信息
+    HAL_UART_Transmit(&huart2, (uint8_t*)"[DATA] Start\r\n", 14, 1000);
     
     while(1)
     {
-        test_counter++;
+        // 每500ms发送一次JSON数据（减少频率）
+        DataSender_SendCombined();
         
-        // 每秒发送一次简单的测试消息
-        if (test_counter % 10 == 0) {
-            char test_msg[] = "[DATASENDER] Alive\r\n";
-            HAL_UART_Transmit(&huart2, (uint8_t*)test_msg, sizeof(test_msg)-1, 1000);
-        }
-        
-        // 每5秒发送一次JSON数据
-        if (test_counter % 50 == 0) {
-            DataSender_SendCombined();
-        }
-        
-        // 延时100ms
-        vTaskDelay(pdMS_TO_TICKS(100));
+        // 延时500ms
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
