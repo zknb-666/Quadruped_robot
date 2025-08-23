@@ -7,6 +7,8 @@
 #include "tim.h"
 #include "Ultrasonic.h"  // 添加超声波模块
 #include "Debug_Output.h" // 添加调试输出重定向
+#include "Data_Sender.h" // 添加数据发送模块
+#include "Hardware_Config.h" // 添加硬件配置修复
 //#include "MPU6050.h"
 
 /* -------------------------------------------------------------------------- */
@@ -29,6 +31,11 @@ void Task_Init_Start(void *parameters)
 	taskENTER_CRITICAL();           //进入临界区，禁止任务调度器
 	
 	Debug_Init();                   //调试输出重定向初始化
+	
+	// 硬件配置问题修复
+	Hardware_Config_Init();         //修复引脚配置冲突
+	Hardware_Config_Print_Status(); //打印配置状态
+	
 	//IMU_Init();                   //陀螺仪初始化
 	Ultrasonic_Init();              //超声波模块初始化
 	Servo_Init();                   //PWM初始化
@@ -37,6 +44,39 @@ void Task_Init_Start(void *parameters)
 	
 	// 测试调试输出系统
 	Debug_Test();
+	
+	// 测试硬件传感器
+	DEBUG_INFO("Testing hardware sensors...\r\n");
+	Hardware_Test_MPU6050();
+	Hardware_Test_Ultrasonic();
+	
+	// 测试JSON数据发送功能
+	DEBUG_INFO("Testing JSON data transmission...\r\n");
+	
+	// 发送一次IMU数据测试
+	if (DataSender_SendIMU()) {
+		DEBUG_INFO("IMU JSON packet sent successfully\r\n");
+	} else {
+		DEBUG_ERROR("Failed to send IMU JSON packet\r\n");
+	}
+	
+	// 发送一次超声波数据测试  
+	if (DataSender_SendUltrasonic()) {
+		DEBUG_INFO("Ultrasonic JSON packet sent successfully\r\n");
+	} else {
+		DEBUG_ERROR("Failed to send Ultrasonic JSON packet\r\n");
+	}
+	
+	// 发送一次组合数据包测试
+	if (DataSender_SendCombined()) {
+		DEBUG_INFO("Combined JSON packet sent successfully\r\n");
+	} else {
+		DEBUG_ERROR("Failed to send Combined JSON packet\r\n");
+	}
+	
+	// 检查Data_Sender任务是否在运行
+	DEBUG_INFO("Checking FreeRTOS tasks status...\r\n");
+	DEBUG_INFO("Task_Init completed successfully, Data_Sender should start soon...\r\n");
 	
 	HAL_Delay(2000);                //延时，等待外设启动
 	vTaskDelete(NULL);              //删除初始化任务

@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */     
 #include "usart.h"
 #include "stdio.h"
+#include "Data_Sender.h"  // 添加数据发送模块头文件
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,6 +61,7 @@ osThreadId Task_IMUHandle;
 osThreadId Task_StateMHandle;
 osThreadId Task_InitHandle;
 osThreadId Task_ControlHandle;
+osThreadId Task_DataSenderHandle;  // 添加数据发送任务句柄
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -67,9 +69,10 @@ osThreadId Task_ControlHandle;
 /* USER CODE END FunctionPrototypes */
 
 void Task_IMU_Start(void const * argument);
-void Task_StateMachine_Start(void const * argument);
+void Task_StateMachine_Start(void * argument);
 void Task_Init_Start(void const * argument);
 void Task_Control_Start(void const * argument);
+void Task_DataSender_Start(void * argument);  // 添加数据发送任务原型
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -123,20 +126,35 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of Task_IMU */
-  osThreadDef(Task_IMU, Task_IMU_Start, osPriorityNormal, 0, 128);
+  osThreadDef(Task_IMU, Task_IMU_Start, osPriorityNormal, 0, 256);
   Task_IMUHandle = osThreadCreate(osThread(Task_IMU), NULL);
 
   /* definition and creation of Task_StateM */
-  osThreadDef(Task_StateM, Task_StateMachine_Start, osPriorityAboveNormal, 0, 128);
+  osThreadDef(Task_StateM, Task_StateMachine_Start, osPriorityAboveNormal, 0, 256);
   Task_StateMHandle = osThreadCreate(osThread(Task_StateM), NULL);
 
   /* definition and creation of Task_Init */
-  osThreadDef(Task_Init, Task_Init_Start, osPriorityHigh, 0, 128);
+  osThreadDef(Task_Init, Task_Init_Start, osPriorityHigh, 0, 512);
   Task_InitHandle = osThreadCreate(osThread(Task_Init), NULL);
 
   /* definition and creation of Task_Control */
-  osThreadDef(Task_Control, Task_Control_Start, osPriorityNormal, 0, 128);
+  osThreadDef(Task_Control, Task_Control_Start, osPriorityNormal, 0, 256);
   Task_ControlHandle = osThreadCreate(osThread(Task_Control), NULL);
+
+  /* definition and creation of Task_DataSender */
+  osThreadDef(Task_DataSender, Task_DataSender_Start, osPriorityNormal, 0, 512);
+  Task_DataSenderHandle = osThreadCreate(osThread(Task_DataSender), NULL);
+  
+  // 调试: 检查任务是否创建成功
+  if (Task_DataSenderHandle != NULL) {
+    printf("[DEBUG] Data_Sender task created successfully\r\n");
+    
+    // 测试：直接调用任务函数一次来验证它是否工作
+    printf("[DEBUG] Testing task function directly...\r\n");
+    // 注意：不能在这里直接调用，会阻塞初始化
+  } else {
+    printf("[ERROR] Failed to create Data_Sender task\r\n");
+  }
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -169,7 +187,7 @@ __weak void Task_IMU_Start(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_Task_StateMachine_Start */
-__weak void Task_StateMachine_Start(void const * argument)
+__weak void Task_StateMachine_Start(void * argument)
 {
   /* USER CODE BEGIN Task_StateMachine_Start */
   /* Infinite loop */
@@ -218,6 +236,19 @@ __weak void Task_Control_Start(void const * argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
+
+/* Stack overflow hook function */
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+{
+    /* Send stack overflow message */
+    char overflow_msg[] = "[ERROR] Stack overflow in task: ";
+    HAL_UART_Transmit(&huart2, (uint8_t*)overflow_msg, sizeof(overflow_msg)-1, 1000);
+    HAL_UART_Transmit(&huart2, (uint8_t*)pcTaskName, strlen(pcTaskName), 1000);
+    HAL_UART_Transmit(&huart2, (uint8_t*)"\r\n", 2, 1000);
+    
+    /* Trap the error */
+    while(1);
+}
      
 /* USER CODE END Application */
 

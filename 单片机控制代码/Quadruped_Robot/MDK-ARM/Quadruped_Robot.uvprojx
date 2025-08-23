@@ -811,6 +811,16 @@
               <FileType>1</FileType>
               <FilePath>..\App\Src\Debug_Test.c</FilePath>
             </File>
+            <File>
+              <FileName>Data_Sender.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\Src\Data_Sender.c</FilePath>
+            </File>
+            <File>
+              <FileName>Hardware_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\Src\Hardware_Config.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

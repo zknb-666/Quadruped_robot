@@ -11,7 +11,9 @@
 #define TASK_INIT_EXT extern
 #endif
 TASK_INIT_EXT TaskHandle_t TaskHandle_IMU;
+TASK_INIT_EXT TaskHandle_t TaskHandle_DataSender;  // 添加数据发送任务句柄
 
 void Task_IMU(void *parameters);
+void Task_DataSender_Start(void *parameters);  // 添加数据发送任务声明
 
 #endif
