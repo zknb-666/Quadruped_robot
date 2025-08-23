@@ -1,113 +1,364 @@
-# STM32 Project .gitignore
+# ========================================
+# STM32 Quadruped Robot Project .gitignore
+# ========================================
 
-# Build outputs and compiled files
+# =============================================================================
+# Keil MDK-ARM IDE Files
+# =============================================================================
+
+# User-specific project settings (keep project file, ignore user settings)
+*.uvguix.*
+*.uvguix
+*.uvoptx
+
+# Build output directories
+**/Objects/
+**/Listings/
+**/Build/
+**/Output/
+
+# Keil compiler/linker generated files
 *.o
 *.obj
+*.d
+*.crf
+*.axf
 *.elf
 *.bin
 *.hex
 *.map
-*.axf
-*.lst
 *.lnp
 *.sct
-*.iex
+*.lst
+*.htm
 *.plg
 *.tra
-*.htm
 *.dep
-*.d
-*.crf
 *.build_log.htm
+*.iex
+ExtDll.iex
 
-# Keil MDK-ARM specific files
-MDK-ARM/Quadruped_Robot/*.o
-MDK-ARM/Quadruped_Robot/*.d
-MDK-ARM/Quadruped_Robot/*.crf
-MDK-ARM/Quadruped_Robot/*.axf
-MDK-ARM/Quadruped_Robot/*.hex
-MDK-ARM/Quadruped_Robot/*.map
-MDK-ARM/Quadruped_Robot/*.lnp
-MDK-ARM/Quadruped_Robot/*.sct
-MDK-ARM/Quadruped_Robot/*.iex
-MDK-ARM/Quadruped_Robot/*.htm
-MDK-ARM/Quadruped_Robot/*.dep
-MDK-ARM/Quadruped_Robot/*.build_log.htm
-MDK-ARM/Quadruped_Robot/ExtDll.iex
-
-# Keil user settings files (keep project settings but ignore user-specific)
-*.uvguix.*
-MDK-ARM/*.uvguix.*
-
-# Debug and temporary files
-MDK-ARM/DebugConfig/
-MDK-ARM/RTE/
+# Keil temporary files
 *.tmp
-*~
+*.log
+*.bak
+*.old
 
-# IDE and editor files
+# Keil RTE (Run Time Environment) - generated files
+RTE/_*
+RTE/Device/
+RTE/CMSIS/
+
+# Keil pack files
+*.pdsc
+*.pack
+
+# =============================================================================
+# STM32CubeMX Generated Files (if applicable)
+# =============================================================================
+
+# STM32CubeMX backup and generated files
+*.ioc.bak
+**/Drivers/CMSIS/Device/ST/STM32*/
+**/Drivers/STM32*/
+# Keep custom user code sections
+!**/Src/*
+!**/Inc/*
+!**/Core/Src/*
+!**/Core/Inc/*
+
+# =============================================================================
+# Debugging and Trace Files  
+# =============================================================================
+
+# Debug configuration files (user-specific)
+DebugConfig/
+**/*.dbgconf
+
+# ST-Link and J-Link files
+*.jlink
+*.stldr
+
+# Logic analyzer files
+*.sal
+*.dsm
+
+# Trace files
+*.trc
+
+# =============================================================================
+# Documentation and Reports
+# =============================================================================
+
+# Generated documentation
+doc/html/
+doc/latex/
+Documentation/html/
+Documentation/latex/
+*.pdf
+
+# Code analysis reports
+cppcheck-report.xml
+**/analysis/
+**/*_report.html
+
+# =============================================================================
+# Development Tools and IDEs
+# =============================================================================
+
+# Visual Studio Code
 .vscode/
+*.code-workspace
+
+# CLion / IntelliJ IDEA
 .idea/
+*.iml
+*.iws
+*.ipr
+cmake-build-*/
+
+# Eclipse
+.metadata/
+.settings/
+.project
+.cproject
+.pydevproject
+RemoteSystemsTempFiles/
+
+# Atom
+.atom/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+sftp-config.json
+
+# Vim/Neovim
 *.swp
 *.swo
 *~
+.netrwhist
+tags
 
-# OS generated files
+# Emacs
+*~
+\#*\#
+.\#*
+.dir-locals.el
+
+# =============================================================================
+# Operating System Files
+# =============================================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
+Icon?
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# Version Control and Backup Files
+# =============================================================================
+
+# Git
+*.orig
+*.rej
+*.patch
+
+# SVN
+.svn/
+
+# Mercurial
+.hg/
+.hgignore
+.hgtags
 
 # Backup files
-*.bak
 *.backup
-*.old
+*.bck
+*.bak~
+*~
 
-# Log files
-*.log
+# =============================================================================
+# Compression and Archive Files
+# =============================================================================
 
-# Dependencies and packages
-node_modules/
-*.tgz
-*.tar.gz
-
-# Archive files
 *.zip
 *.rar
 *.7z
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tgz
+*.tbz2
+*.txz
 
-# Temporary build directories
-build/
-debug/
-release/
-Build/
-Debug/
-Release/
+# =============================================================================
+# Temporary and Cache Files
+# =============================================================================
 
-# Generated documentation
-doc/html/
-doc/latex/
-*.pdf
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
 
-# Test results
-TestResults/
-test-results/
+# Cache directories
+.cache/
+cache/
+**/cache/
 
-# Coverage reports
-coverage/
-*.coverage
-*.nyc_output
+# =============================================================================
+# Programming Language Specific
+# =============================================================================
+
+# C/C++
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.pdb
+*.lib
+*.a
+*.la
+*.lo
+*.slo
+*.lai
+
+# Python (if used for scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+env/
+venv/
+.env
+.venv
+
+# Node.js (if used for tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# =============================================================================
+# Environment and Configuration
+# =============================================================================
 
 # Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
-# Project specific ignores
-# Add any project-specific files or directories you want to ignore here
+# Configuration files with sensitive data
+config.local.*
+secrets.*
+*.secret
+
+# =============================================================================
+# Testing and CI/CD
+# =============================================================================
+
+# Test results
+TestResults/
+test-results/
+*.testresults
+coverage/
+*.coverage
+.nyc_output/
+
+# CI/CD temporary files
+.github/workflows/temp/
+.gitlab-ci-local/
+.jenkins/
+
+# =============================================================================
+# Project Specific Exclusions
+# =============================================================================
+
+# Keep important project files
+!*.ioc
+!*.uvprojx
+!Makefile
+!CMakeLists.txt
+!*.ld
+!*.s
+!*.S
+
+# Custom hardware files
+# Custom_HW/
+# !Custom_HW/README.md
+
+# Simulation files
+# Proteus/
+# !Proteus/*.pdsprj
+
+# PCB Design files (if applicable)
+# Hardware/
+# !Hardware/*.sch
+# !Hardware/*.brd
+
+# 3D Models and mechanical files
+# Mechanical/
+# !Mechanical/README.md
+
+# =============================================================================
+# Security and Sensitive Data
+# =============================================================================
+
+# Private keys and certificates
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Credentials and API keys
+credentials.*
+api_keys.*
+
+# =============================================================================
+# Large Files and Assets
+# =============================================================================
+
+# Large binary files
+*.iso
+*.img
+*.dmg
+
+# Large assets (consider using Git LFS)
+# *.bin (commented out as STM32 projects may have legitimate .bin files)
+
+# =============================================================================
+# End of .gitignore
+# =============================================================================
