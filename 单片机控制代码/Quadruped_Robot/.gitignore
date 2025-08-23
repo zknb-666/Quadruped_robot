@@ -1,0 +1,113 @@
+# STM32 Project .gitignore
+
+# Build outputs and compiled files
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.axf
+*.lst
+*.lnp
+*.sct
+*.iex
+*.plg
+*.tra
+*.htm
+*.dep
+*.d
+*.crf
+*.build_log.htm
+
+# Keil MDK-ARM specific files
+MDK-ARM/Quadruped_Robot/*.o
+MDK-ARM/Quadruped_Robot/*.d
+MDK-ARM/Quadruped_Robot/*.crf
+MDK-ARM/Quadruped_Robot/*.axf
+MDK-ARM/Quadruped_Robot/*.hex
+MDK-ARM/Quadruped_Robot/*.map
+MDK-ARM/Quadruped_Robot/*.lnp
+MDK-ARM/Quadruped_Robot/*.sct
+MDK-ARM/Quadruped_Robot/*.iex
+MDK-ARM/Quadruped_Robot/*.htm
+MDK-ARM/Quadruped_Robot/*.dep
+MDK-ARM/Quadruped_Robot/*.build_log.htm
+MDK-ARM/Quadruped_Robot/ExtDll.iex
+
+# Keil user settings files (keep project settings but ignore user-specific)
+*.uvguix.*
+MDK-ARM/*.uvguix.*
+
+# Debug and temporary files
+MDK-ARM/DebugConfig/
+MDK-ARM/RTE/
+*.tmp
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Log files
+*.log
+
+# Dependencies and packages
+node_modules/
+*.tgz
+*.tar.gz
+
+# Archive files
+*.zip
+*.rar
+*.7z
+
+# Temporary build directories
+build/
+debug/
+release/
+Build/
+Debug/
+Release/
+
+# Generated documentation
+doc/html/
+doc/latex/
+*.pdf
+
+# Test results
+TestResults/
+test-results/
+
+# Coverage reports
+coverage/
+*.coverage
+*.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Project specific ignores
+# Add any project-specific files or directories you want to ignore here
