@@ -1,6 +1,10 @@
+#ifndef __INVERSE_K_H
+#define __INVERSE_K_H
+
 #include "math.h"
 #include "sysconfig.h"
 #include "Task_StateMachine.h"
+
 #define RAD_TO_DEG 180/PI
 #define DEG_TO_RAD PI/180
 #define PI 3.14159267
@@ -34,11 +38,11 @@
 #define SupportingStatus_Yst 43.9
 #define SupportingStatus_Zst 0.5*S
 
-
 #define Move_to_Left_SwayStatus_Yst        SwayStatus_Yst-0.5*S_
 #define Move_to_Left_SupportingStatus_Yst  SupportingStatus_Yst+0.5*S_
 #define Move_to_Right_SwayStatus_Yst       SwayStatus_Yst+0.5*S_
 #define Move_to_Right_SupportingStatus_Yst SupportingStatus_Yst-0.5*S_
+
 //三维坐标
 typedef struct
 {
@@ -63,12 +67,14 @@ typedef struct
 	float theta_3;
 } floatTheta;
 
+// 函数声明
 floatXYZ Leg_Position_Vector(int num,floatXYZ pos,floatRPY angle);
-
 void inverse_kinematics(floatXYZ AB[],int len);  //逆运动学求解
-
 floatXYZ SwayStatus_Trajectory(MainState_t MainState,int num,float t);  //输入为时间微分
-
 floatXYZ SupportingStatus_Trajectory(MainState_t MainState,int num,float t);  //输入为时间微分
+void IK_Calclulate(floatXYZ EndPos[],float angle[]);  //逆运动学求解
+void Trapezoidal_Planning(floatXYZ EndPos[]);  //梯形轨迹规划
+
+#endif /* __INVERSE_K_H */
 
 

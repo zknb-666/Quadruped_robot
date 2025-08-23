@@ -29,6 +29,8 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include <string.h>
+#include "Ultrasonic.h"  // 添加超声波模块头文件
+#include "Debug_Output.h" // 添加调试输出重定向
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +58,7 @@ uint8_t data2[20];
 //uint8_t data3[20];
 /*******USART3陀螺仪数据接收变量*******/
 uint8_t Re_buf[11],counter=0;
+unsigned char sign=0;  // 添加sign变量定义
 static unsigned char Temp[11];
 
 /*******UART4超声波模块数据接收变量*******/
@@ -75,13 +78,7 @@ void MX_FREERTOS_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#ifdef __GNUC__
-/* With GCC, small printf (option LD Linker->Libraries->Small printf
-   set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
+// fputc重定向已移至Debug_Output.c模块
 
 /* USER CODE END 0 */
 
@@ -122,12 +119,10 @@ int main(void)
   MX_USART3_UART_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
+  
+  printf("** System inited successfully. ** \r\n");  // 此时调试系统已经初始化，会输出到蓝牙
 
-  printf("** System inited successfully. ** \r\n");
-	
-  /* USER CODE END 2 */
-
-  /* Call init function for freertos objects (in freertos.c) */
+  /* USER CODE END 2 */  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init(); 
   /* Start scheduler */
   osKernelStart();
@@ -183,19 +178,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-/**
-  * @brief  Retargets the C library printf function to the USART.
-  * @param  None
-  * @retval None
-  */
-PUTCHAR_PROTOTYPE
-{
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
-
-  return ch;
-}
+// fputc重定向实现已移至Debug_Output.c模块
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -219,6 +202,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     { 
 			memcpy(Re_buf,Temp,11);   //将Temp数组复制到Re_buf
       counter=0;                //重新赋值，准备下一帧数据的接收
+			sign=1;                   // 设置数据准备标志
 			osMailPut(myMail02Handle,Re_buf);
     }
 		HAL_UART_Receive_IT(&huart3,data2,1);
@@ -237,6 +221,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     { 
 			memcpy(Re_buf2,Temp2,5);   //将Temp数组复制到Re_buf
       counter2=0;                //重新赋值，准备下一帧数据的接收
+			
+			// 处理超声波数据
+			Ultrasonic_ProcessData(Re_buf2, 5);
     }
 		HAL_UART_Receive_IT(&huart4,data3,1);
 	}	

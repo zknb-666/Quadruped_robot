@@ -1,7 +1,8 @@
+#include "Inverse_K.h"  // 直接包含确保类型定义可见
 #include "MPU6050.h"
 #include "string.h"
 #include "math.h"
-#include "Inverse_K.h"
+#include "Debug_Output.h"  // 添加调试输出重定向
 
 
 /*******USART3陀螺仪数据接收变量*******/
@@ -17,9 +18,10 @@ int Gyro_calibration_times2=0;
 
 float q0 = 1, q1 = 0, q2 = 0, q3 = 0;    // quaternion elements representing the estimated orientation  四元数
 float exInt = 0, eyInt = 0, ezInt = 0;    // scaled integral error  
-struct floatRPY Q_ANGLE;
+floatRPY Q_ANGLE;  // 修正结构体声明
 
-extern void LegAngle_to_ServoPos(struct floatXYZ pos,struct floatRPY angle);
+// 外部函数声明放到函数外部
+void LegAngle_to_ServoPos(floatXYZ pos, floatRPY angle);
 
 /*****陀螺仪数据解析函数******/
 void Gyroscopetest(void)
@@ -88,7 +90,7 @@ void Gyroscopetest(void)
 						//if(Gyro_calibration_times<50||Gyro_calibration_times2<50)
 						//	printf("Gyro_calibration_times=%d\r\n",Gyro_calibration_times);
 						//else
-							printf("X加速度:%.2f  Y加速度:%.2f  Z加速度:%.2f X角速度:%.2f  Y角速度:%.2f  Z角速度:%.2f   X角度:%.2f  Y角度:%.2f  Z角度:%.2f\r\n",
+							DEBUG_DEBUG("X加速度:%.2f  Y加速度:%.2f  Z加速度:%.2f X角速度:%.2f  Y角速度:%.2f  Z角速度:%.2f   X角度:%.2f  Y角度:%.2f  Z角度:%.2f\r\n",
 						 				a[0],a[1],a[2],w[0],w[1],w[2],angle[0],angle[1],angle[2]);
 																//四元数解算
       }  			
@@ -100,7 +102,6 @@ void Gyroscopetest(void)
 /*******陀螺仪数据处理函数******/
 void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 {
-	float temp[4];
   float norm;
   //float hx, hy, hz, bx, bz;
   float vx, vy, vz;// wx, wy, wz;
@@ -164,7 +165,7 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 }
 
 /*****四元数解算函数*****/
-struct floatRPY MUP6050_Data_Process(void)
+floatRPY MUP6050_Data_Process(void)  // 修正返回类型
 {
 	Gyroscopetest();
 	//IMUupdate(w[0],w[1],w[2],a[0],a[1],a[2]);
@@ -176,8 +177,8 @@ struct floatRPY MUP6050_Data_Process(void)
 void IMU_Attitude_Control(void)
 {
 	float KP=-1;
-	struct floatRPY euler_angle;
-	struct floatXYZ pos;
+	floatRPY euler_angle;  // 修正结构体类型
+	floatXYZ pos;         // 修正结构体类型
 	pos.x=0;
 	pos.y=0;
 	pos.z=150;

@@ -48,3 +48,4 @@ quadruped_robot\task_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/s
 quadruped_robot\task_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 quadruped_robot\task_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 quadruped_robot\task_imu.o: ../Inc/usart.h
+quadruped_robot\task_imu.o: ..\App\Inc\Debug_Output.h

@@ -46,3 +46,5 @@ quadruped_robot\main.o: ../Inc/usart.h
 quadruped_robot\main.o: ../Inc/gpio.h
 quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 quadruped_robot\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+quadruped_robot\main.o: ..\App\Inc\Ultrasonic.h
+quadruped_robot\main.o: ..\App\Inc\Debug_Output.h

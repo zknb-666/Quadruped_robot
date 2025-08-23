@@ -30,6 +30,8 @@ quadruped_robot\task_servocontrol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1
 quadruped_robot\task_servocontrol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 quadruped_robot\task_servocontrol.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 quadruped_robot\task_servocontrol.o: ../Inc/gpio.h
+quadruped_robot\task_servocontrol.o: ..\App\Inc\Debug_Output.h
+quadruped_robot\task_servocontrol.o: ../Inc/usart.h
 quadruped_robot\task_servocontrol.o: ..\App\Inc\Inverse_K.h
 quadruped_robot\task_servocontrol.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 quadruped_robot\task_servocontrol.o: ..\Task\Inc\sysconfig.h

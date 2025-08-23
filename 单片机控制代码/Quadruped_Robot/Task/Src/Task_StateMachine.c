@@ -1,5 +1,6 @@
 #include "Task_StateMachine.h"
 #include "stdio.h"
+#include "Debug_Output.h"  // 添加调试输出重定向
 /*------------------------ state enum --------------------------*/
 
 /*----------------------- state Variables -----------------------*/

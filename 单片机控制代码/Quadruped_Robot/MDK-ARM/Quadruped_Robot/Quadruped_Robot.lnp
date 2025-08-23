@@ -38,6 +38,10 @@
 "quadruped_robot\heap_4.o"
 "quadruped_robot\port.o"
 "quadruped_robot\inverse_k.o"
+"quadruped_robot\mpu6050.o"
+"quadruped_robot\debug_output.o"
+"quadruped_robot\ultrasonic.o"
+"quadruped_robot\debug_test.o"
 --library_type=microlib --strict --scatter "Quadruped_Robot\Quadruped_Robot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

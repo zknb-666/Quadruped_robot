@@ -47,3 +47,5 @@ quadruped_robot\task_statemachine.o: ../Middlewares/Third_Party/FreeRTOS/Source/
 quadruped_robot\task_statemachine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 quadruped_robot\task_statemachine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 quadruped_robot\task_statemachine.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+quadruped_robot\task_statemachine.o: ..\App\Inc\Debug_Output.h
+quadruped_robot\task_statemachine.o: ../Inc/usart.h

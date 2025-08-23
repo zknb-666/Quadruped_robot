@@ -2,6 +2,7 @@
 #include "main.h"
 #include "stdio.h"
 #include "gpio.h"
+#include "Debug_Output.h"  // 添加调试输出重定向
 
 #include "Inverse_K.h"
 #include "math.h"
@@ -392,6 +393,12 @@ uint8_t IMU_Attitude_Control(void)
 	euler_angle.Y=0;
 	Pos_Attitude_Control(pos,euler_angle);
 	return 1;
+}
+
+/*****LegAngle_to_ServoPos函数 - 用于MPU6050模块调用*****/
+void LegAngle_to_ServoPos(floatXYZ pos, floatRPY angle)
+{
+	Pos_Attitude_Control(pos, angle);
 }
 
 

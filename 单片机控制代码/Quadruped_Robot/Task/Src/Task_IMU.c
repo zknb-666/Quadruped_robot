@@ -1,5 +1,6 @@
 #include "Task_init.h"
 #include "stdio.h"
+#include "Debug_Output.h"  // 添加调试输出重定向
 
 
 static uint8_t IMU_attitude_update(void);		/*更新数据*/
@@ -7,7 +8,8 @@ static uint8_t MPU_Getdata(void);
 /*----------------------- state Variables -----------------------*/
 uint8_t *rdata2;
 osEvent retval2;
-float a[3]={0},w[3]={0},angle[3]={0},T=0;
+extern float a[3],w[3],angle[3];  // 改为extern声明，避免重复定义
+float T=0;
 
 /* ---------------------------- Global Variables ---------------------------- */ 
 extern UART_HandleTypeDef huart3;
@@ -103,6 +105,13 @@ uint8_t MPU_Getdata(void)
 
 uint8_t IMU_attitude_update(void)
 {
+	// 进行四元数解算，更新姿态数据
+	//IMUupdate(w[0], w[1], w[2], a[0], a[1], a[2]);
+	
+	// 输出调试信息到蓝牙端口
+	DEBUG_INFO("IMU Data - Roll:%.2f Pitch:%.2f Yaw:%.2f\r\n", 
+			angle[0], angle[1], angle[2]);
+	
 	return 1;
 }
 

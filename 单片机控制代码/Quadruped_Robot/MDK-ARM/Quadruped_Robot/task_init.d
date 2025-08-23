@@ -49,3 +49,5 @@ quadruped_robot\task_init.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/
 quadruped_robot\task_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 quadruped_robot\task_init.o: ../Inc/usart.h
 quadruped_robot\task_init.o: ../Inc/tim.h
+quadruped_robot\task_init.o: ..\App\Inc\Ultrasonic.h
+quadruped_robot\task_init.o: ..\App\Inc\Debug_Output.h
