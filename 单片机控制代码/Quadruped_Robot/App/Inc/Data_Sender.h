@@ -13,6 +13,9 @@
 #include "MPU6050.h"
 #include "Ultrasonic.h"
 
+/* 引入状态机头文件以获取模式信息 */
+#include "Task_StateMachine.h"
+
 /* 数据包类型定义 */
 typedef enum {
     DATA_TYPE_IMU = 1,          // IMU数据包
