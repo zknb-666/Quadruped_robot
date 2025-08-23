@@ -76,44 +76,30 @@ void DataSender_Init(void)
 }
 
 /**
- * @brief 发送IMU数据 (JSON格式)
+ * @brief 发送IMU数据 (简化JSON格式)
  * @return 发送结果 (1=成功, 0=失败)
  */
 uint8_t DataSender_SendIMU(void)
 {
-    char json_buffer[256];
+    char json_buffer[192];
     uint32_t timestamp = HAL_GetTick();
     float acc[3], gyro[3], temp;
     uint8_t mpu_ok = Hardware_MPU6050_ReadSensorData(acc, gyro, &temp);
     
-    // 获取当前模式信息
-    GaitMode_t current_gait_mode = GetGaitMode();
-    MainState_t current_main_state = GetMainState();
-    
-    // 构建JSON格式的IMU数据
+    // 简化JSON格式 - 扁平化结构
     int len = snprintf(json_buffer, sizeof(json_buffer),
         "{"
-        "\"type\":\"imu\","
-        "\"timestamp\":%lu,"
-        "\"data\":{"
-            "\"euler\":[0.00,0.00,0.00],"
-            "\"acc\":[%.3f,%.3f,%.3f],"
-            "\"gyro\":[%.1f,%.1f,%.1f],"
-            "\"temp\":%.1f,"
-            "\"valid\":%d"
-        "},"
-        "\"robot_mode\":{"
-            "\"gait_mode\":\"%s\","
-            "\"main_state\":\"%s\""
-        "}"
+        "\"t\":%lu,"
+        "\"ax\":%.3f,\"ay\":%.3f,\"az\":%.3f,"
+        "\"gx\":%.1f,\"gy\":%.1f,\"gz\":%.1f,"
+        "\"temp\":%.1f,"
+        "\"ok\":%d"
         "}\r\n",
         timestamp,
         mpu_ok ? acc[0] : 0.0f, mpu_ok ? acc[1] : 0.0f, mpu_ok ? acc[2] : 0.0f,
         mpu_ok ? gyro[0] : 0.0f, mpu_ok ? gyro[1] : 0.0f, mpu_ok ? gyro[2] : 0.0f,
         mpu_ok ? temp : 0.0f,
-        mpu_ok ? 1 : 0,
-        GetGaitModeString(current_gait_mode),
-        GetMainStateString(current_main_state)
+        mpu_ok ? 1 : 0
     );
     
     if (len > 0 && len < sizeof(json_buffer)) {
@@ -124,39 +110,25 @@ uint8_t DataSender_SendIMU(void)
 }
 
 /**
- * @brief 发送超声波数据 (JSON格式)  
+ * @brief 发送超声波数据 (简化JSON格式)  
  * @return 发送结果 (1=成功, 0=失败)
  */
 uint8_t DataSender_SendUltrasonic(void)
 {
-    char json_buffer[128];
+    char json_buffer[96];
     uint32_t timestamp = HAL_GetTick();
     float distance = Hardware_Ultrasonic_Measure();
-    uint8_t valid = (distance > 0) ? 1 : 0;
     
-    // 获取当前模式信息
-    GaitMode_t current_gait_mode = GetGaitMode();
-    MainState_t current_main_state = GetMainState();
-    
-    // 构建JSON格式的超声波数据
+    // 简化JSON格式
     int len = snprintf(json_buffer, sizeof(json_buffer),
         "{"
-        "\"type\":\"ultrasonic\","
-        "\"timestamp\":%lu,"
-        "\"data\":{"
-            "\"distance\":%.1f,"
-            "\"valid\":%d"
-        "},"
-        "\"robot_mode\":{"
-            "\"gait_mode\":\"%s\","
-            "\"main_state\":\"%s\""
-        "}"
+        "\"t\":%lu,"
+        "\"dist\":%.1f,"
+        "\"ok\":%d"
         "}\r\n",
         timestamp,
         distance > 0 ? distance : 0.0f,
-        valid,
-        GetGaitModeString(current_gait_mode),
-        GetMainStateString(current_main_state)
+        (distance > 0) ? 1 : 0
     );
     
     if (len > 0 && len < sizeof(json_buffer)) {
@@ -167,19 +139,18 @@ uint8_t DataSender_SendUltrasonic(void)
 }
 
 /**
- * @brief 发送组合数据包 (JSON格式)
+ * @brief 发送组合数据包 (简化JSON格式)
  * @return 发送结果 (1=成功, 0=失败)
  */
 uint8_t DataSender_SendCombined(void)
 {
-    char json_buffer[512];
+    char json_buffer[256];
     uint32_t timestamp = HAL_GetTick();
     
     // 直接从硬件读取传感器数据
     float acc[3], gyro[3], temp;
     float distance = Hardware_Ultrasonic_Measure();
     uint8_t mpu_ok = Hardware_MPU6050_ReadSensorData(acc, gyro, &temp);
-    uint8_t ultrasonic_valid = (distance > 0) ? 1 : 0;
     
     // 获取当前模式信息
     GaitMode_t current_gait_mode = GetGaitMode();
@@ -187,45 +158,30 @@ uint8_t DataSender_SendCombined(void)
     
     g_packet_counter++;
     
-    // 构建组合数据包
+    // 简化的组合数据包 - 扁平化结构，使用短键名
     int len = snprintf(json_buffer, sizeof(json_buffer),
         "{"
-        "\"type\":\"combined\","
-        "\"timestamp\":%lu,"
+        "\"t\":%lu,"
         "\"seq\":%lu,"
-        "\"imu\":{"
-            "\"euler\":[0.00,0.00,0.00],"
-            "\"acc\":[%.3f,%.3f,%.3f],"
-            "\"gyro\":[%.1f,%.1f,%.1f],"
-            "\"temp\":%.1f,"
-            "\"valid\":%d"
-        "},"
-        "\"ultrasonic\":{"
-            "\"distance\":%.1f,"
-            "\"valid\":%d"
-        "},"
-        "\"robot_mode\":{"
-            "\"gait_mode\":\"%s\","
-            "\"main_state\":\"%s\","
-            "\"mode_id\":%d,"
-            "\"state_id\":%d"
-        "},"
-        "\"status\":{"
-            "\"battery\":100"
-        "}"
+        "\"ax\":%.3f,\"ay\":%.3f,\"az\":%.3f,"
+        "\"gx\":%.1f,\"gy\":%.1f,\"gz\":%.1f,"
+        "\"temp\":%.1f,"
+        "\"imu_ok\":%d,"
+        "\"dist\":%.1f,"
+        "\"dist_ok\":%d,"
+        "\"mode\":%d,"
+        "\"state\":%d"
         "}\r\n",
         timestamp,
         g_packet_counter,
-        mpu_ok ? acc[0] : 0.0f, mpu_ok ? acc[1] : 0.0f, mpu_ok ? acc[2] : 0.0f,  // 加速度 [x, y, z]
-        mpu_ok ? gyro[0] : 0.0f, mpu_ok ? gyro[1] : 0.0f, mpu_ok ? gyro[2] : 0.0f, // 角速度 [x, y, z]
-        mpu_ok ? temp : 0.0f,          // 温度
-        mpu_ok ? 1 : 0,                // IMU数据有效性
-        distance > 0 ? distance : 0.0f, // 超声波距离
-        ultrasonic_valid,              // 超声波数据有效性
-        GetGaitModeString(current_gait_mode),  // 步态模式字符串
-        GetMainStateString(current_main_state), // 主状态字符串
-        (int)current_gait_mode,        // 步态模式ID
-        (int)current_main_state        // 主状态ID
+        mpu_ok ? acc[0] : 0.0f, mpu_ok ? acc[1] : 0.0f, mpu_ok ? acc[2] : 0.0f,
+        mpu_ok ? gyro[0] : 0.0f, mpu_ok ? gyro[1] : 0.0f, mpu_ok ? gyro[2] : 0.0f,
+        mpu_ok ? temp : 0.0f,
+        mpu_ok ? 1 : 0,
+        distance > 0 ? distance : 0.0f,
+        (distance > 0) ? 1 : 0,
+        (int)current_gait_mode,
+        (int)current_main_state
     );
     
     if (len > 0 && len < sizeof(json_buffer)) {
@@ -236,39 +192,31 @@ uint8_t DataSender_SendCombined(void)
 }
 
 /**
- * @brief 发送状态数据
+ * @brief 发送状态数据 (简化JSON格式)
  * @param status: 机器人状态码
  * @return 发送结果 (1=成功, 0=失败)
  */
 uint8_t DataSender_SendStatus(uint8_t status)
 {
-    char json_buffer[256];
+    char json_buffer[128];
     uint32_t timestamp = HAL_GetTick();
     
     // 获取当前模式信息
     GaitMode_t current_gait_mode = GetGaitMode();
     MainState_t current_main_state = GetMainState();
     
+    // 简化JSON格式
     int len = snprintf(json_buffer, sizeof(json_buffer),
         "{"
-        "\"type\":\"status\","
-        "\"timestamp\":%lu,"
-        "\"data\":{"
-            "\"robot_status\":%d,"
-            "\"uptime\":%lu"
-        "},"
-        "\"robot_mode\":{"
-            "\"gait_mode\":\"%s\","
-            "\"main_state\":\"%s\","
-            "\"mode_id\":%d,"
-            "\"state_id\":%d"
-        "}"
+        "\"t\":%lu,"
+        "\"status\":%d,"
+        "\"uptime\":%lu,"
+        "\"mode\":%d,"
+        "\"state\":%d"
         "}\r\n",
         timestamp,
         status,
         timestamp,
-        GetGaitModeString(current_gait_mode),
-        GetMainStateString(current_main_state),
         (int)current_gait_mode,
         (int)current_main_state
     );
