@@ -9,11 +9,11 @@
 #define DEG_TO_RAD PI/180
 #define PI 3.14159267
 
-#define Body_Width 104
-#define Body_Length 245
+#define Body_Width 55
+#define Body_Length 105
 #define Body_Thickness 0
-#define Foot_Width 191.8
-#define Foot_Length 245
+#define Foot_Width 10
+#define Foot_Length 105
 
 //单位：mm
 #define a1 43.9
