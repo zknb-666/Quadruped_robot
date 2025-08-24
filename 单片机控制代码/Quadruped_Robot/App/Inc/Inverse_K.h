@@ -21,9 +21,9 @@
 #define a3 113
 
 //单位：mm
-#define S_ 20   //侧移步长/旋转半径
+#define S_ 35   //侧移步长/旋转半径
 #define S  50   //前进步长
-#define H  20   //抬足高度
+#define H  35   //抬足高度
 #define T  35  //步态周期  
 
 #define Beta acos(S_/sqrt(Foot_Width*Foot_Width+Foot_Length*Foot_Length))-atan2(Foot_Width,Foot_Length) //旋转时Y轴与Z轴夹角
