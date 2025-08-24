@@ -17,51 +17,8 @@
 static Combined_DataPacket_t g_combined_data;
 static uint32_t g_packet_counter = 0;
 
-/* 私有函数声明 */
-static const char* GetGaitModeString(GaitMode_t mode);
-static const char* GetMainStateString(MainState_t state);
-
 /* 外部变量声明 */
 extern UART_HandleTypeDef huart2;   // USART2句柄
-
-/**
- * @brief 获取步态模式字符串
- * @param mode: 步态模式枚举
- * @return 模式字符串
- */
-static const char* GetGaitModeString(GaitMode_t mode)
-{
-    switch(mode) {
-        case GaitMode_Stand:       return "stand";
-        case GaitMode_Walk:        return "walk";
-        case GaitMode_Trot:        return "trot";
-        case GaitMode_Crawl:       return "crawl";
-        case GaitMode_Body_Twist:  return "body_twist";
-        default:                   return "unknown";
-    }
-}
-
-/**
- * @brief 获取主状态字符串
- * @param state: 主状态枚举
- * @return 状态字符串
- */
-static const char* GetMainStateString(MainState_t state)
-{
-    switch(state) {
-        case MainState_Static:         return "static";
-        case MainState_Step:           return "step";
-        case MainState_Forward:        return "forward";
-        case MainState_Backward:       return "backward";
-        case MainState_Move_to_Left:   return "move_left";
-        case MainState_Move_to_Right:  return "move_right";
-        case MainState_Turn_Left:      return "turn_left";
-        case MainState_Turn_Right:     return "turn_right";
-        case MainState_IMU:            return "imu_stabilize";
-        case MainState_Avoid_Obstacle: return "avoid_obstacle";
-        default:                       return "unknown";
-    }
-}
 
 /**
  * @brief 数据发送模块初始化
